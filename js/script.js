@@ -1,20 +1,21 @@
 // Part1: Declare varables for selecting elements on your page
 const randomFolks = document.querySelector(".random-peeps"); //step1: Create variable for selecting the random-peeps class div
+const selectUserNumber = document.querySelector("#users");
 
-// Part2: Declare a variable for your asynchronous function
-const getData = async function () {
-  const usersRequest = await fetch("https://randomuser.me/api?results=5");
+// Part2: Declare a variable for your asynchronous function (main function)
+const getData = async function (numUsers) {
+  const usersRequest = await fetch(`https://randomuser.me/api?results=${numUsers}`);
   const data = await usersRequest.json();
   const userResults = data.results; //Array of objects //  Don't understand this line of code???  Where did <results> come from???
 
   displayUsers(userResults);
 };
 
-getData();
+getData(1);
 
-// Part3: Create a function to display the users
+// Part3: Create a function to display the users (supporting function)
 const displayUsers = function (userResults) {
-  randomFolks.innerHTMl = ""; 
+  randomFolks.innerHTML = ""; 
 
   for (const user of userResults) {
     const country = user.location.country;
@@ -29,3 +30,10 @@ const displayUsers = function (userResults) {
     randomFolks.append(userDiv);
   }
 };
+
+selectUserNumber.addEventListener("change", function (e) {
+  const numUsers = e.target.value;
+  getData(numUsers);
+}); 
+
+
